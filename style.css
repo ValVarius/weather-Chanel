@@ -1,0 +1,27 @@
+body { 
+    background-color: blanchedalmond;
+}
+
+#search {
+    margin: 10px;
+}
+.cardBlue{
+    background-color: rgb(16, 67, 235);
+    margin: 10px;
+    color: white;
+}
+
+
+.row{
+    margin-top: 20px;
+}
+nav {
+    /* display:inline-block; */
+    color: white;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+
+
+}

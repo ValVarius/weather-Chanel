@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-dark bg-dark">
+        <!-- Navbar content -->
+        <h1>Weather Dashboard</h1>
+      </nav>
+    
+        
+<div class = "container">
+    <div class = "row">
+        <!-- First Column -->
+        <div class="col-4">
+
+            <div class="input-group mb-3">
+                <input id = inputSpace type="text" class="form-control" placeholder="City Name" aria-label="Recipient's username" aria-describedby="button-addon2">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+                </div>
+              </div>
+            <!-- card of the place -->
+            <div class="card" style="width: 18rem;">
+                <ul id = list class="list-group list-group-flush">
+                  <li class="list-group-item">seattle</li>
+                  
+                </ul>
+              </div>
+
+        </div>
+
+
+        <!-- Second Column -->
+        <div class="col-8">
+            <!-- first row inside second col -->
+            <div clas = "row">
+                 <div class="card border border-success" style="width: 48rem;">
+                    <div class="card-body">
+                        <div class="row">
+                            
+                           <h5 class="card-title currentCity">text</h5>
+                           <img id = currentIcon src="" alt="icon" align = "top" >
+
+                            
+                            
+                        </div>
+                        <p class="card-text currentTemperature"># info</p>
+                        <p class="card-text currentHumidity"># info...</p>
+                        <p class="card-text wind"># info</p>
+                        <p class="card-text uvIndex"># info...</p>
+                        
+                     </div>
+                </div>
+            </div>
+
+              <!-- second row inside second col -->
+            <div class = "row">
+                <!-- first of 5 cards -->
+                <h3>5-Day Forecast:</h3>
+            </div>
+            <!-- Third row inside second col -->
+            <div class = "row">
+                <!-- first day card -->
+              <div id = day1 class="card border border-success cardBlue" style="width: 8rem;">
+                        <div class="card-body">
+                        <h5 id = day1-title class="card-title">Topic</h5>
+                        <img id = icon1 src="" alt="icon">
+                        <p id = tempday1 class="card-text"># info...</p>
+                        <p id = humiday1 class="card-text"># info...</p>
+                        
+                        </div>
+              </div>
+              <!-- second day -->
+              <div id = day2 class="card border border-success cardBlue" style="width: 8rem;">
+                <div class="card-body">
+                <h5 id = day2-title class="card-title">Topic</h5>
+                <img id = icon2 src="" alt="icon">
+                <p id = tempday2 class="card-text"># info...</p>
+                <p id = humiday2 class="card-text"># info...</p>
+                
+                </div>   
+      </div>
+      <!-- third day -->
+      <div id = day3 class="card border border-success cardBlue" style="width: 8rem;">
+        <div class="card-body">
+        <h5 id = day3-title class="card-title">Topic</h5>
+        <img id = icon3 src="" alt="icon">
+        <p id = tempday3 class="card-text"># info...</p>
+        <p id = humiday3 class="card-text"># info...</p>
+        
+        </div>
+    </div>
+    <!-- fourth day -->
+    <div id = day4 class="card border border-success cardBlue" style="width: 8rem;">
+        <div class="card-body">
+        <h5 id = day4-title class="card-title">Topic</h5>
+        <img id = icon4 src="" alt="icon">
+        <p id = tempday4 class="card-text"># info...</p>
+        <p id = humiday4 class="card-text"># info...</p>
+        
+        </div>
+      </div>
+<!-- fifth day -->
+<div id = day5 class="card border border-success cardBlue" style="width: 8rem;">
+<div class="card-body">
+<h5 id = day5-title class="card-title">Topic</h5>
+<img id = icon5 src="" alt="icon">
+<p id = tempday5 class="card-text"># info...</p>
+<p id = humiday5 class="card-text"># info...</p>
+
+</div>
+</div>
+        
+              
+
+      
+              
+            </div>
+              
+              
+                  
+        </div>
+        
+    </div>   
+</div>
+
+   
+
+
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
