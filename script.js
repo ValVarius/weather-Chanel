@@ -35,10 +35,12 @@ var icon5 = $("#icon5");
 var dayTemp5 = $("#tempday5");
 var dayHumid5 = $("#humiday5");
 
-var base = "http://api.openweathermap.org/data/2.5/forecast";
+var base = "https://api.openweathermap.org/data/2.5/forecast";
 var city = "?q=seattle"
 var key = "&appid=b4d27d3778961482cb9a9ec700e8650e"
 var cityCounter = 0;
+var lat;
+var lng;
 
 search();
 
@@ -120,8 +122,34 @@ function search(){
             dayTemp5.text("Temp: "+ results.list[39].main.temp + "° F");
             dayHumid5.text("Humidity: " +results.list[39].main.humidity + "%");
 
+            // getting coordinates
+            lat = results.city.coord.lat;
+            lng = results.city.coord.lon;
+
+
+            console.log(lat+ "&" +lng)
+            // retrieving the uv index
+            var hrlWhoUV =" http://api.openweathermap.org/data/2.5/uvi?appid=b4d27d3778961482cb9a9ec700e8650e&lat=" + lat + "&lon="+lng;
+            // http://api.openweathermap.org/data/2.5/uvi?appid={appid}&lat={lat}&lon={lon}
+            $.ajax({
+                url: hrlWhoUV,
+                method: "GET"
+            })
+            .then(function(response) {
+    
+                var uvResponse = response;
+                console.log(uvResponse);
+
+                uvIndex.text("UV index: ");
+                uvNumber.text( uvResponse.value );
+
+
+            }) 
+
             
             })
+
+        
             
 };
 
