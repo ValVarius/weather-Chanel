@@ -249,7 +249,7 @@ function search(){
 
             console.log(lat+ "&" +lng)
             // retrieving the uv index
-            var hrlWhoUV =" http://api.openweathermap.org/data/2.5/uvi?appid=b4d27d3778961482cb9a9ec700e8650e&lat=" + lat + "&lon="+lng;
+            var hrlWhoUV =" https://api.openweathermap.org/data/2.5/uvi?appid=b4d27d3778961482cb9a9ec700e8650e&lat=" + lat + "&lon="+lng;
             // http://api.openweathermap.org/data/2.5/uvi?appid={appid}&lat={lat}&lon={lon}
             $.ajax({
                 url: hrlWhoUV,
