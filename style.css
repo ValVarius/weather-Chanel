@@ -1,5 +1,6 @@
 body { 
     background-color: blanchedalmond;
+    
 }
 
 #search {
@@ -25,3 +26,16 @@ nav {
 
 
 }
+.delete {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    right: 0%;
+    padding: 12px 16px;
+    transform: translate(0%, -50%);
+  }
+  
+  .delete:hover {background: #bbb;}
+  #local {
+      background-color: goldenrod;
+  }

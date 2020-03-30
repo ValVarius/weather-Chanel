@@ -8,6 +8,7 @@ var currentIcon = $("#currentIcon");
 var currentTemperature = $(".currentTemperature");
 var currentHumidity = $(".currentHumidity");
 var uvIndex = $(".uvIndex");
+var uvNumber = $("#uvNumber");
 var wind = $(".wind");
 // 5 days cards
 var day1 = $("#day1-title");
@@ -35,40 +36,158 @@ var icon5 = $("#icon5");
 var dayTemp5 = $("#tempday5");
 var dayHumid5 = $("#humiday5");
 
-var base = "https://api.openweathermap.org/data/2.5/forecast";
-var city = "?q=seattle"
+var base = "https://api.openweathermap.org/data/2.5/forecast";  //lat=35&lon=139
+var city = ""
 var key = "&appid=b4d27d3778961482cb9a9ec700e8650e"
 var cityCounter = 0;
-var lat;
-var lng;
-
-search();
+var lat = "";
+var lng = "";
 
 
+function retrieve(){
+    //Storing all the keys into an Array
+    var k = Object.keys(localStorage);
+    var v = Object.values(localStorage);
+    console.log(k);
+    console.log(k.length);
+    console.log(v[0]);
+    console.log(v.length);
+
+    // set the counter to the maximum index plus one
+    // Loops creates as many il as there are cities stored in the local storage and displays their names
+    for (let i = 0; i < k.length; i++) {
+        if (cityCounter < k[i])
+        {
+            cityCounter = k[i];
+        }
+        
+        var newItem = $("<li>", {"class": "list-group-item"});
+        var newSpan = $("<span>", {"class": "delete"}); 
+        newItem.text(v[i]);
+        newSpan.text("x");
+        newItem.append(newSpan);
+        $(".list-group").append(newItem);
+
+
+     // Loops assigns a click event to each delete button next to the city name
+    $(".delete").click(function(){
+        console.log(this)
+
+        $(this).text("");
+        console.log($(this).closest('li').text());
+
+        var deletedName = $(this).closest('li').text();
+        $(this).closest('li').remove();
+        // look for name in local storage and delete it.
+        console.log(v);
+        for (let i = 0; i < v.length; i++) {
+            if (v[i] === deletedName)
+            {
+                localStorage.removeItem(k[i]);
+                
+            }
+            
+        }
+
+    })//Endo of delete click
 
 
 
+    
+    }
+    // adding click event to the old items to display the data again
+    $(".list-group-item").click(function(){
+        console.log($(this).text().substr(0, ($(this).text().length-1)));
+        var input = $(this).text();
+        input = input.substr(0,(input.length  - 1 ));
+    if (input)
+    {
+        city = "?q=" + input + "&units=imperial"
+        search();
+    }
+    })//Endo of display click
 
+
+}//END of the retrieve function
+
+function addToScreen(name){
+    console.log(name)
+    // appending new city
+     var newItem = $("<li>", {"class": "list-group-item"});
+     var newSpan = $("<span>", {"class": "delete"}); 
+        newItem.text(name);
+        newSpan.text("x");
+        newItem.append(newSpan);
+        $(".list-group").append(newItem);
+    // adding click event to new item to be deleted by the user
+
+    var k = Object.keys(localStorage);
+    var v = Object.values(localStorage);
+
+    $(".delete").click(function(){
+        
+        $(this).text("");
+        console.log($(this).closest('li').text());
+        var deletedName = $(this).closest('li').text();
+        $(this).closest('li').remove();
+        // look for name in local storage and delete it.
+        console.log(v);
+        for (let i = 0; i < v.length; i++) {
+            if (v[i] === deletedName)
+            {
+                localStorage.removeItem(k[i]);
+                
+            } 
+        }
+
+    })//Endo of delete click
+
+    // adding click event to the new item to display the data again
+    $(".list-group-item").click(function(){
+
+
+        console.log($(this).text().substr(0, ($(this).text().length-1)));
+        
+        var input = $(this).text();
+        input = input.substr(0,(input.length  - 1 ));
+
+    if (input)
+    {
+        city = "?q=" + input + "&units=imperial"
+        search();
+    }
+        
+        
+        
+
+    })//Endo of display click
+
+
+
+}
 
 
 // adding event listener to search button
 $(searchButton).click(function(){
-    
-    city = "?q=" + inputSpace.val() + "&units=imperial"
-    cityCounter++;
-    localStorage.setItem(cityCounter, inputSpace.val());
-    
-    search();
+    var input = inputSpace.val();
+
+    if (input)
+    {
+        city = "?q=" + inputSpace.val() + "&units=imperial"
+        cityCounter++;
+        localStorage.setItem(cityCounter, inputSpace.val());
+        addToScreen(inputSpace.val());
+        search();
+    }
 })
 
 
-
+//function gets weather data on the city and displays it
 function search(){
     
     var results;
     var hrlWho = base + city + key;
     
-        
         $.ajax({
             url: hrlWho,
             method: "GET"
@@ -77,16 +196,17 @@ function search(){
 
             results = response;
             console.log(results);
-
+            // All sections are populated with data retrieved
             // current day
             currentCity.text(results.city.name + " (" + results.list[0].dt_txt.substr(0, 10) + ") ");
+            $("#local").text(results.city.name);
             var iconUrl = "http://openweathermap.org/img/wn/" + results.list[0].weather[0].icon + ".png";
             currentIcon.attr("src", iconUrl);
             currentTemperature.text("Temperature: "+ results.list[0].main.temp + "° F");
             currentHumidity.text("Humidity: " +results.list[0].main.humidity + "%");
             wind.text("Wind Speed: " + results.list[0].wind.speed  + " MPH")
 
-            // uvIndex
+            
             // first day
             day1.text(results.list[8].dt_txt.substr(0, 10));
             var iconUrl1 =  "http://openweathermap.org/img/wn/" + results.list[8].weather[0].icon + ".png";
@@ -137,11 +257,33 @@ function search(){
             })
             .then(function(response) {
     
-                var uvResponse = response;
-                console.log(uvResponse);
+                var uvResponse = response.value;
 
-                uvIndex.text("UV index: ");
-                uvNumber.text( uvResponse.value );
+                console.log(uvResponse);
+                
+                uvNumber.text(uvResponse);
+                
+                if(uvResponse <= 2)
+                {
+                    uvNumber.css("background-color","greenyellow");
+                }
+                else if (uvResponse > 2 & uvResponse <= 5)
+                {
+                    uvNumber.css("background-color","yellow");
+                }
+                else if (uvResponse >5 & uvResponse <= 7)
+                {
+                    uvNumber.css("background-color","orange");
+                }
+                else if (uvResponse > 7 & uvResponse <= 10)
+                {
+                    uvNumber.css("background-color","red");
+                }
+                else{
+                    uvNumber.css("background-color","rgb(197, 17, 197)");
+                }
+                
+                
 
 
             }) 
@@ -155,6 +297,22 @@ function search(){
 
 
 
+// // retrieve the last serches. create li with a class "open" and span each with class "close"
+retrieve();
+// this function is called and given the showPosition function as parameter
+getLocation();
+function getLocation() {
+    navigator.geolocation.getCurrentPosition(showPosition);
+}
+// This extract the coordinates and store them in the var 'city', then search method  is then called.
+function showPosition(response) {
+    lat = response.coords.latitude;
+    lng = response.coords.longitude;
+    city = "?lat="+lat+"&lon=" +lng;
+    console.log("Latitude: " + response.coords.latitude);
+    console.log("Longitude: " + response.coords.longitude);
+    search();
+  }
 
 
 
