@@ -42,6 +42,19 @@ var key = "&appid=b4d27d3778961482cb9a9ec700e8650e";
 var cityCounter = 0;
 var lat = "";
 var lng = "";
+var stored = allStorage();
+// console.log(stored);
+function allStorage() {
+  var values = [],
+    keys = Object.keys(localStorage),
+    i = keys.length;
+
+  while (i--) {
+    values.push(localStorage.getItem(keys[i]));
+  }
+
+  return values;
+}
 
 function retrieve() {
   //Storing all the keys into an Array
@@ -61,7 +74,7 @@ function retrieve() {
 
     var newItem = $("<li>", { class: "list-group-item" });
     var newSpan = $("<span>", { class: "delete" });
-    newItem.text(v[i]);
+    newItem.text(v[i].toUpperCase());
     newSpan.text("x");
     newItem.append(newSpan);
     $(".list-group").append(newItem);
@@ -150,11 +163,23 @@ function addToScreen(name) {
 $(searchButton).click(function () {
   var input = inputSpace.val();
 
+  //   should check if city already present in local storage
   if (input) {
     city = "?q=" + inputSpace.val() + "&units=imperial";
     cityCounter++;
-    localStorage.setItem(cityCounter, inputSpace.val());
-    addToScreen(inputSpace.val());
+    let present = stored.find((item) => item == inputSpace.val().toLowerCase());
+
+    if (typeof present == "undefined") {
+      console.log("INPUT city not yet present");
+      cityCounter++;
+      let newCity = inputSpace.val().toLowerCase();
+      localStorage.setItem(cityCounter, newCity);
+      stored.push(newCity);
+      addToScreen(newCity.toUpperCase());
+    } else {
+      console.log("INPUT city already present");
+    }
+
     search();
   }
 });
@@ -173,8 +198,25 @@ function search() {
     // All sections are populated with data retrieved
     // current day
     currentCity.text(
-      results.city.name + " (" + results.list[0].dt_txt.substr(0, 10) + ") "
+      results.city.name.toUpperCase() + " (" + results.list[0].dt_txt.substr(0, 10) + ") "
     );
+
+    // if city already present do not add to list
+    let present = stored.find(
+      (item) => item == results.city.name.toLowerCase()
+    );
+
+    if (typeof present == "undefined") {
+      console.log("city not yet present");
+      cityCounter++;
+      let newCity = results.city.name.toLowerCase();
+      localStorage.setItem(cityCounter, newCity);
+      stored.push(newCity);
+      addToScreen(newCity.toUpperCase());
+    } else {
+      console.log("city already present");
+    }
+
     $("#local").text(results.city.name);
     var iconUrl =
       "http://openweathermap.org/img/wn/" +
@@ -182,15 +224,17 @@ function search() {
       ".png";
     currentIcon.attr("src", iconUrl);
     currentTemperature.text(
-      "Temperature: " +intoFahrenheit (results.list[0].main.temp) + "° F"
+      "Temperature: " + intoFahrenheit(results.list[0].main.temp) + "° F"
     );
     currentHumidity.text("Humidity: " + results.list[0].main.humidity + "%");
     wind.text("Wind Speed: " + results.list[0].wind.speed + " MPH");
 
     function intoFahrenheit(num) {
       // (300K − 273.15) × 9/5 + 32 = 80.33°F
-      let res = ((num - 273.15) * 9) / 5 + 32;
-      return Math.trunc(res);
+      if (num > 200) {
+        let res = ((num - 273.15) * 9) / 5 + 32;
+        return Math.trunc(res);
+      } else return num;
     }
 
     // first day
@@ -200,7 +244,7 @@ function search() {
       results.list[8].weather[0].icon +
       ".png";
     icon1.attr("src", iconUrl);
-    dayTemp1.text("Temp: " +intoFahrenheit( results.list[8].main.temp )+ "° F");
+    dayTemp1.text("Temp: " + intoFahrenheit(results.list[8].main.temp) + "° F");
     dayHumid1.text("Humidity: " + results.list[8].main.humidity + "%");
 
     // second day
@@ -210,7 +254,9 @@ function search() {
       results.list[16].weather[0].icon +
       ".png";
     icon2.attr("src", iconUrl);
-    dayTemp2.text("Temp: " +intoFahrenheit (results.list[16].main.temp) + "° F");
+    dayTemp2.text(
+      "Temp: " + intoFahrenheit(results.list[16].main.temp) + "° F"
+    );
     dayHumid2.text("Humidity: " + results.list[16].main.humidity + "%");
 
     // third day
@@ -220,7 +266,9 @@ function search() {
       results.list[24].weather[0].icon +
       ".png";
     icon3.attr("src", iconUrl);
-    dayTemp3.text("Temp: " +intoFahrenheit (results.list[24].main.temp )+ "° F");
+    dayTemp3.text(
+      "Temp: " + intoFahrenheit(results.list[24].main.temp) + "° F"
+    );
     dayHumid3.text("Humidity: " + results.list[24].main.humidity + "%");
 
     // fourth day
@@ -230,7 +278,9 @@ function search() {
       results.list[32].weather[0].icon +
       ".png";
     icon4.attr("src", iconUrl);
-    dayTemp4.text("Temp: " +intoFahrenheit (results.list[32].main.temp) + "° F");
+    dayTemp4.text(
+      "Temp: " + intoFahrenheit(results.list[32].main.temp) + "° F"
+    );
     dayHumid4.text("Humidity: " + results.list[32].main.humidity + "%");
 
     // fifth day
@@ -240,7 +290,9 @@ function search() {
       results.list[39].weather[0].icon +
       ".png";
     icon5.attr("src", iconUrl);
-    dayTemp5.text("Temp: " +intoFahrenheit (results.list[39].main.temp) + "° F");
+    dayTemp5.text(
+      "Temp: " + intoFahrenheit(results.list[39].main.temp) + "° F"
+    );
     dayHumid5.text("Humidity: " + results.list[39].main.humidity + "%");
 
     // getting coordinates
@@ -260,8 +312,6 @@ function search() {
       method: "GET",
     }).then(function (response) {
       var uvResponse = response.value;
-
-      console.log(uvResponse);
 
       uvNumber.text(uvResponse);
 
