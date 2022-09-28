@@ -1,44 +1,44 @@
-body { 
-    background-color: blanchedalmond;
-    
+body {
+  background-color: blanchedalmond;
 }
-.container{
-    min-width: 1500px;
+.container {
+  min-width: 1400px;
 }
 
 #search {
-    margin: 10px;
+  margin: 10px;
 }
-.cardBlue{
-    background-color: rgb(16, 67, 235);
-    margin: 10px;
-    color: white;
+.cardBlue {
+  background-color: rgb(16, 67, 235);
+  margin: 10px;
+  color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-
-.row{
-    margin-top: 20px;
+.row {
+  margin-top: 20px;
 }
-nav {
-    /* display:inline-block; */
-    color: white;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-
+.navbar{
+  color: white;
+  display: block;
+  text-align: center;
 
 }
 .delete {
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    right: 0%;
-    padding: 12px 16px;
-    transform: translate(0%, -50%);
-  }
-  
-  .delete:hover {background: #bbb;}
-  #local {
-      background-color: goldenrod;
-  }
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  right: 0%;
+  padding: 12px 16px;
+  transform: translate(0%, -50%);
+}
+
+.delete:hover {
+  background: #bbb;
+}
+#local {
+  background-color: goldenrod;
+}
