@@ -91,7 +91,7 @@ function retrieve() {
       // look for name in local storage and delete it.
       console.log(v);
       for (let i = 0; i < v.length; i++) {
-        if (v[i] === deletedName) {
+        if (v[i] === deletedName.toLowerCase()) {
           localStorage.removeItem(k[i]);
         }
       }
